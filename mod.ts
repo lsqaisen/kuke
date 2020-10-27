@@ -1,5 +1,21 @@
-import { Router, Application, Context } from 'https://deno.land/x/oak/mod.ts';
-import babelstandalone from 'https://dev.jspm.io/@babel/standalone';
+import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
+import {
+  WebSocket,
+  WebSocketServer,
+} from 'https://deno.land/x/websocket@v0.0.5/mod.ts';
+
+const wss = new WebSocketServer(8080);
+wss.on('connection', function(ws: WebSocket) {
+  ws.on('message', function(message: string) {
+    console.log(message);
+  });
+
+  setTimeout(() => {
+    const res = Deno.readFileSync('./src/preact.js');
+    const js = new TextDecoder('utf-8').decode(res);
+    ws.send(js.replace('World', 'Aisen'));
+  }, 5000);
+});
 
 const app = new Application();
 app.use(async (ctx: Context, next: () => Promise<void>) => {

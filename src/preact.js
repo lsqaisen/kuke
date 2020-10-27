@@ -14,7 +14,7 @@ function App(props) {
 
 render(
   html`
-    <${App} name="Wolrd" />
+    <${App} name="World" />
   `,
   document.querySelector('#preact-root')
 );
