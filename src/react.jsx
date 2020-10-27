@@ -16,7 +16,12 @@ class LikeButton extends React.Component {
       return html`
         <div
           onClick=${() => this.setState({ liked: false })}
-          style=${{ height: '32px', padding: '0 16px', cursor: 'pointer' }}
+          style=${{
+            height: '32px',
+            padding: '0 16px',
+            cursor: 'pointer',
+            color: 'red',
+          }}
         >
           You liked this.
         </div>
@@ -26,9 +31,14 @@ class LikeButton extends React.Component {
     return html`
       <button
         onClick=${() => this.setState({ liked: true })}
-        style=${{ height: '32px', padding: '0 16px', cursor: 'pointer' }}
+        style=${{
+          height: '32px',
+          padding: '0 16px',
+          cursor: 'pointer',
+          color: 'red',
+        }}
       >
-        Like
+        Likedsdfsdfsdfsdf
       </button>
     `;
   }
