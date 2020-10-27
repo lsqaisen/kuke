@@ -24,7 +24,7 @@ wss.on('connection', async function(ws: WebSocket) {
 });
 
 const app = new Application();
-app.use(async (ctx: Context, next: () => Promise<void>) => {
+app.use(async (ctx: Context) => {
   const decoder = new TextDecoder('utf-8');
   if (ctx.request.url.pathname == '/') {
     // 返回静态资源
@@ -38,8 +38,7 @@ app.use(async (ctx: Context, next: () => Promise<void>) => {
     const p = Deno.cwd() + ctx.request.url.pathname;
     const res = Deno.readFileSync(p);
     ctx.response.type = 'application/javascript';
-    // 返回替换路径后的文件
-    ctx.response.body = decoder.decode(res); // rewriteImports(decoder.decode(res));
+    ctx.response.body = decoder.decode(res);
   }
 });
 
