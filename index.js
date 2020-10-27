@@ -11,7 +11,8 @@ ws.addEventListener('message', function(message) {
   script.onload = function() {
     console.log('Script loaded!');
   };
-  script.innerHTML = message.data;
+  // script.innerHTML = message.data;
+  script.src = `${message.data}?${new Date().getTime()}`;
   document.head.appendChild(script);
 });
 

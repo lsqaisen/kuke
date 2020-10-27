@@ -8,13 +8,13 @@ import {
 
 function App(props) {
   return html`
-    <h1>Hello ${props.name}!</h1>
+    <h1>Hellodd ${props.name}!</h1>
   `;
 }
 
 render(
   html`
-    <${App} name="World" />
+    <${App} name="Wodldd" />
   `,
   document.querySelector('#preact-root')
 );
