@@ -12,8 +12,14 @@ ws.addEventListener('message', function(message) {
     console.log('Script loaded!');
   };
   // script.innerHTML = message.data;
-  script.src = `${message.data}?${new Date().getTime()}`;
+  // script.src = `${message.data}?${new Date().getTime()}`;
+
+  // script.innerHTML = message.data;
+  script.innerHTML = `
+    System.import('${
+      message.data
+    }?${new Date().getTime()}').then(v=>console.log(v))
+  `;
   document.head.appendChild(script);
 });
-
 console.log(3333);

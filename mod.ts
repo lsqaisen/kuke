@@ -32,8 +32,11 @@ app.use(async (ctx: Context) => {
     const data = Deno.readFileSync('./index.html');
     ctx.response.body = decoder.decode(data);
   }
-  console.log(1, ctx.request.url.pathname);
-  if (['jsx', 'js'].some((v) => ctx.request.url.pathname.endsWith(`.${v}`))) {
+  if (
+    ['jsx', 'js', 'tsx', 'ts'].some((v) =>
+      ctx.request.url.pathname.endsWith(`.${v}`)
+    )
+  ) {
     // 处理 js 文件
     const p = Deno.cwd() + ctx.request.url.pathname;
     const res = Deno.readFileSync(p);
