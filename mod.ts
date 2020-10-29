@@ -1,27 +1,4 @@
 import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
-import {
-  WebSocket,
-  WebSocketServer,
-} from 'https://deno.land/x/websocket@v0.0.5/mod.ts';
-
-const wss = new WebSocketServer(8080);
-wss.on('connection', async function(ws: WebSocket) {
-  ws.on('message', async function(message: string) {
-    console.log(message);
-  });
-
-  const watcher = Deno.watchFs('./src/');
-  let timeout: number | null = null;
-  for await (const event of watcher) {
-    console.log(event);
-    if (event.kind !== 'access') {
-      if (timeout) clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        ws.send(event.paths[0].replace(`${Deno.cwd()}`, '.'));
-      }, 500);
-    }
-  }
-});
 
 const app = new Application();
 app.use(async (ctx: Context) => {
@@ -30,10 +7,18 @@ app.use(async (ctx: Context) => {
     // 返回静态资源
     ctx.response.type = 'text/html';
     const data = Deno.readFileSync('./index.html');
+    // const scripts = `<script type="module"/>
+    // ${Object.entries(
+    //   JSON.parse(decoder.decode(Deno.readFileSync('./importmap.json'))).imports
+    // )
+    //   .map(([k, v]) => `import "${v}";`)
+    //   .join('\n')}
+    // </script>`;
     ctx.response.body = decoder.decode(data);
   }
+  console.log(1, ctx.request.url.pathname);
   if (
-    ['jsx', 'js', 'tsx', 'ts'].some((v) =>
+    ['jsx', 'js', 'tsx', 'ts', 'json'].some((v) =>
       ctx.request.url.pathname.endsWith(`.${v}`)
     )
   ) {
@@ -42,8 +27,22 @@ app.use(async (ctx: Context) => {
     const res = Deno.readFileSync(p);
     ctx.response.type = 'application/javascript';
     ctx.response.body = decoder.decode(res);
+    //removeImports(decoder.decode(res));
   }
 });
+
+function removeImports(content: string) {
+  return content.replace(/import .* from ['|"]([^'"]+)['|"]/g, function(
+    $0,
+    $1
+  ) {
+    if ($1[0] !== '.' && $1[1] !== '/') {
+      return '';
+    } else {
+      return $0;
+    }
+  });
+}
 
 console.log('http://0.0.0.0:8000');
 app.listen({ port: 8000 });

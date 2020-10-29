@@ -1,6 +1,6 @@
-import React from 'https://dev.jspm.io/react';
-import ReactDOM from 'https://dev.jspm.io/react-dom';
-import htm from 'https://dev.jspm.io/htm';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import htm from 'htm';
 
 const e = React.createElement;
 const html = htm.bind(e);
@@ -23,7 +23,7 @@ class LikeButton extends React.Component {
             color: 'red',
           }}
         >
-          You liked this.
+          You likesdfsdfsdfd this.
         </div>
       `;
     }
@@ -38,7 +38,7 @@ class LikeButton extends React.Component {
           color: 'red',
         }}
       >
-        Likedsdfsdfsdfsdf
+        Liksdfsdfss
       </button>
     `;
   }

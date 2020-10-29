@@ -1,14 +1,11 @@
 //
-import {
-  html,
-  render,
-} from 'https://dev.jspm.io/htm/preact/standalone.module.js';
+import { html, render } from 'preact';
 
 // Initialize htm with Preact
 
 function App(props) {
   return html`
-    <h1>Helod ${props.name}!</h1>
+    <h1>Helossdsddsd ${props.name}!</h1>
   `;
 }
 

@@ -6,37 +6,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <script type="systemjs-importmap">
-    {
-      "imports": {
-        "https://dev.jspm.io/htm": "@empty"
-      },
-      "map": {
-        "htm": "https://dev.jspm.io/htm",
-        "https://dev.jspm.io/htm/preact/standalone.module.js": "@empty"
-      }
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.12/system.js"></script> -->
-  <script src="https://cdn.bootcss.com/systemjs/6.2.6/extras/use-default.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script>
-  <!-- <script type="systemjs-module" src="import:plugin-babel"></script> -->
-  <!-- <script type="systemjs-module" src="import:systemjs-babel-build"></script> -->
-  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <!-- <script type="systemjs-importmap" src="./importmap.json"> </script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@0.21.5/dist/system.js"></script>
+  <!-- <script src="https://cdn.bootcss.com/systemjs/6.2.6/extras/use-default.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs@6.7.1/dist/extras/transform.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs-transform-babel@0.1.2/dist/babel-transform.min.js"></script> -->
 
-  <script type="systemjs-module" src="./index.js"></script>
-  <script type="text/babel">
-    // System.import("./app.tsx")
-  </script>
-  </script>
+  <!-- <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script> -->
 
 </head>
 
 <body>
+
   <div id="react-root"></div>
   <div id="preact-root"></div>
   <p>tedsds3</p>
+  <script>
+    // SystemJS.config({
+    //   map: {
+    //     'plugin-babel': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel@0.0.25/plugin-babel.min.js',
+    //     'systemjs-babel-build': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel@0.0.25/systemjs-babel-browser.js'
+    //   },
+    //   transpiler: 'plugin-babel'
+    // });
+    // SystemJS.config({
+    //   map: {
+    //     "ts": 'https://cdn.jsdelivr.net/npm/plugin-typescript@8.0.0/lib/plugin.min.js',
+    //     "typescript": 'https://cdn.jsdelivr.net/npm/typescript@4.0.5/lib/typescript.min.js',
+    //     "preact": "https://dev.jspm.io/htm/preact/standalone.module.js",
+    //     "react": "https://dev.jspm.io/react",
+    //     "react-dom": "https://dev.jspm.io/react-dom",
+    //   },
+    //   transpiler: "ts",
+    //   typescriptOptions: {
+    //     "module": "system",
+    //     "noImplicitAny": false,
+    //     "tsconfig": true
+    //   },
+    //   packages: {
+    //     "src": {
+    //       "main": "./react.tsx",
+    //       "defaultExtension": "",
+    //       "meta": {
+    //         "*.css": {
+    //           "loader": "css"
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
+    // System.import("react").then(v => { console.log(v) })
+    // System.import("react-dom")
+    // System.import("src").then(function () {
+    //   console.log('running');
+    // })
+    //   .catch(function (err) {
+    //     console.log(err);
+    //     console.log(err.originalErr);
+    //   });
+
+
+    SystemJS.config({
+      map: {
+        'plugin-babel': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel@0.0.25/plugin-babel.min.js',
+        'systemjs-babel-build': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel@0.0.25/systemjs-babel-browser.js',
+        "ts": 'https://cdn.jsdelivr.net/npm/plugin-typescript@8.0.0/lib/plugin.min.js',
+        "typescript": 'https://cdn.jsdelivr.net/npm/typescript@4.0.5/lib/typescript.min.js',
+        "preact": "https://dev.jspm.io/htm/preact/standalone.module.js",
+        "react": "https://dev.jspm.io/react",
+        "react-dom": "https://dev.jspm.io/react-dom",
+        "htm": "https://dev.jspm.io/htm",
+      },
+      transpiler: "plugin-babel",
+      typescriptOptions: {
+        module: "system",
+        noImplicitAny: true,
+        tsconfig: true                  // also accepts a path
+      },
+      meta: {
+        "*.ts": {
+          loader: "ts"
+        },
+        '*.js': {
+          babelOptions: {
+            react: true
+          }
+        },
+        '*.tsx': {
+          babelOptions: {
+            react: true
+          }
+        }
+      }
+    });
+    System.import('index.js')
+  </script>
 </body>
 
 </html>
