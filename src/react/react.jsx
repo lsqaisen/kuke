@@ -1,7 +1,9 @@
 import React from 'https://dev.jspm.io/react';
 import ReactDOM from 'https://dev.jspm.io/react-dom';
 import htm from 'https://dev.jspm.io/htm';
-
+import Child from './react-child.js';
+import hotLoader from 'https://dev.jspm.io/react-hot-loader';
+console.log(hotLoader);
 const e = React.createElement;
 const html = htm.bind(e);
 
@@ -23,7 +25,7 @@ class LikeButton extends React.Component {
             color: 'red',
           }}
         >
-          You liked this.
+          You liked this.d
         </div>
       `;
     }
@@ -38,10 +40,14 @@ class LikeButton extends React.Component {
           color: 'red',
         }}
       >
-        Likedsdfsdfsdfsdf
+        <${Child} />
       </button>
     `;
   }
 }
 
-ReactDOM.render(e(LikeButton), document.querySelector('#react-root'));
+const hotE = hotLoader.hot(module)(LikeButton);
+
+ReactDOM.render(e(hotE), document.querySelector('#react-root'));
+
+module.hot.accept();

@@ -8,4 +8,4 @@ const App = (props: Props): string => props.data;
 
 // const D = (): any => <div></div>;
 
-export default D;
+export default App;

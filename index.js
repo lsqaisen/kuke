@@ -16,9 +16,7 @@ ws.addEventListener('message', function(message) {
 
   // script.innerHTML = message.data;
   script.innerHTML = `
-    System.import('${
-      message.data
-    }?${new Date().getTime()}').then(v=>console.log(v))
+    System.import('${message.data}').then(v=>console.log(v))
   `;
   document.head.appendChild(script);
 });

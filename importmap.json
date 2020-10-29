@@ -1,0 +1,23 @@
+{
+  "imports": {
+    "react": "https://dev.jspm.io/react",
+    "react-dom": "https://dev.jspm.io/react-dom",
+    "htm": "https://dev.jspm.io/htm",
+    "preact": "https://dev.jspm.io/htm/preact/standalone.module.js"
+  },
+  "scopes": {
+    "scope-test/": {
+      "maptest": "./contextual-map-dep.js",
+      "maptest/": "./contextual-map-dep/"
+    },
+    "wasm/": {
+      "example": "./wasm/example.js"
+    }
+  },
+  "depcache": {
+    "./src/react": [
+      "/react-child.js"
+    ]
+  },
+  "integrity": {}
+}

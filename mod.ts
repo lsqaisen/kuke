@@ -33,7 +33,7 @@ app.use(async (ctx: Context) => {
     ctx.response.body = decoder.decode(data);
   }
   if (
-    ['jsx', 'js', 'tsx', 'ts'].some((v) =>
+    ['jsx', 'js', 'tsx', 'ts', 'json'].some((v) =>
       ctx.request.url.pathname.endsWith(`.${v}`)
     )
   ) {
