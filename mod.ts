@@ -17,6 +17,9 @@ app.use(async (ctx: Context) => {
     ctx.response.body = decoder.decode(data);
   }
   console.log(1, ctx.request.url.pathname);
+  if (ctx.request.url.pathname === '/socket.io/') {
+    ctx.response.body = '';
+  }
   if (
     ['jsx', 'js', 'tsx', 'ts', 'json'].some((v) =>
       ctx.request.url.pathname.endsWith(`.${v}`)
@@ -27,22 +30,8 @@ app.use(async (ctx: Context) => {
     const res = Deno.readFileSync(p);
     ctx.response.type = 'application/javascript';
     ctx.response.body = decoder.decode(res);
-    //removeImports(decoder.decode(res));
   }
 });
-
-function removeImports(content: string) {
-  return content.replace(/import .* from ['|"]([^'"]+)['|"]/g, function(
-    $0,
-    $1
-  ) {
-    if ($1[0] !== '.' && $1[1] !== '/') {
-      return '';
-    } else {
-      return $0;
-    }
-  });
-}
 
 console.log('http://0.0.0.0:8000');
 app.listen({ port: 8000 });

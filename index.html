@@ -78,6 +78,8 @@
         "react": "https://dev.jspm.io/react",
         "react-dom": "https://dev.jspm.io/react-dom",
         "htm": "https://dev.jspm.io/htm",
+        "systemjs-hot-reloader": "https://cdn.jsdelivr.net/npm/systemjs-hot-reloader@1.1.0/dist/index.min.js",
+        "systemjs-hmr": "https://cdn.jsdelivr.net/npm/systemjs-hmr@2.0.9/dist/systemjs-hmr.min.js"
       },
       transpiler: "plugin-babel",
       typescriptOptions: {
@@ -101,7 +103,19 @@
         }
       }
     });
-    System.import('index.js')
+    System.trace = true
+    System.import('systemjs-hot-reloader')
+      .then(function (connect) {
+        connect({ host: '//0.0.0.0:8000/s' }); // chokidar-socket-emitter port
+        return System.import('index.js')
+      })
+      .then(function () {
+        console.log('running');
+      })
+      .catch(function (err) {
+        console.log(err);
+        console.log(err.originalErr);
+      });
   </script>
 </body>
 
