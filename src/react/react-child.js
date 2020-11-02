@@ -13,7 +13,7 @@ class Child extends React.Component {
 
   render() {
     return html`
-      <button
+      <div
         style=${{
           height: '32px',
           padding: '0 16px',
@@ -21,10 +21,12 @@ class Child extends React.Component {
           color: 'red',
         }}
       >
-        testssdfsdfdsdff
-      </button>
+        testsss
+      </div>
     `;
   }
 }
 
 export default Child;
+
+console.log(43345);

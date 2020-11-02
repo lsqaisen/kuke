@@ -46,8 +46,9 @@ class LikeButton extends React.Component {
   }
 }
 
-const hotE = hotLoader.hot(module)(LikeButton);
-
-ReactDOM.render(e(hotE), document.querySelector('#react-root'));
-
-module.hot.accept();
+ReactDOM.render(
+  html`
+    <${LikeButton} />
+  `,
+  document.querySelector('#react-root')
+);

@@ -10,6 +10,7 @@ ws.addEventListener('message', function(message) {
   //Firefox, Opera, Chrome, Safari 3+
   script.onload = function() {
     console.log('Script loaded!');
+    document.head.remove(script);
   };
   // script.innerHTML = message.data;
   // script.src = `${message.data}?${new Date().getTime()}`;
@@ -18,6 +19,7 @@ ws.addEventListener('message', function(message) {
   script.innerHTML = `
     System.import('${message.data}').then(v=>console.log(v))
   `;
+
   document.head.appendChild(script);
 });
 console.log(3333);
