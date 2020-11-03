@@ -40,7 +40,7 @@ for await (const event of watcher) {
   if (timeout) clearTimeout(timeout);
   timeout = setTimeout(() => {
     _porcess.close();
+    console.log('restart');
+    _porcess = run();
   }, 500);
-  console.log('restart');
-  _porcess = run();
 }

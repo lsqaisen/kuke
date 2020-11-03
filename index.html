@@ -6,21 +6,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <script type="systemjs-importmap" src="./importmap.json"></script>
+  <!-- <script type="systemjs-importmap" src="./importmap.json"></script>
   <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script>
   <script src="https://cdn.bootcss.com/systemjs/6.2.6/extras/use-default.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script>
-  <!-- <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script> -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <script type="module" src="./index.js"></script>
+  <!-- <script id="test" type="text/babel" data-type="module" data-presets="react,stage-3" src="./src/react/react.jsx"
+    async></script> -->
+
+
+  <!-- <script>
+    var script = document.createElement('script');
+    script.type = 'module';
+    //Firefox, Opera, Chrome, Safari 3+
+    script.id = 'react'
+    script.onload = function (e) {
+      console.log('Script loaded!');
+      // document.head.remove(script);
+      console.log(react)
+      document.body.nodeValue
+    };
+    // script.innerHTML = message.data;
+    // script.src = `${message.data}?${new Date().getTime()}`;
+
+    // script.innerHTML = message.data;
+    script.src = "https://dev.jspm.io/react";
+
+    document.head.appendChild(script);
+  </script> -->
+  <script>
+    function lolizer() {
+      return {
+        visitor: {
+          BinaryExpression(path) {
+            path.parentPath.get('body').replaceWith(
+              async () => {
+                await import('https://dev.jspm.io/react').then(v => v.default)
+              }
+            )
+            console.log(path)
+            // path.node.name = 'LOL';
+          },
+          ImportDeclaration(path) {
+
+            console.log(path)
+            console.log(path.node.source.value)
+
+            // path.replaceWithSourceString(async () => {
+            //   await import('https://dev.jspm.io/react').then(v => v.default)
+            // })
+            // path.parent.source.value = 'sfsf'
+          },
+        }
+      }
+    }
+    Babel.registerPlugin('lolizer', lolizer);
+    console.log(Babel)
   </script>
+  <script type="text/babel" data-type="module" data-plugins="lolizer" data-presets="flow,typescript,react" async>
+    import React from 'https://dev.jspm.io/react'
+    function test() { return "sdfsdf" }
+  </script>
+  <!-- <script type="module">
 
+    fetch('https://dev.jspm.io/react').then((v) => { console.log(v.blob().then(async v => console.log(await v.text()))) })
+  </script> -->
 </head>
 
 <body>
   <div id="react-root"></div>
   <div id="preact-root"></div>
-  <p>tedsds3</p>
 </body>
 
 </html>
