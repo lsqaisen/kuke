@@ -17,7 +17,7 @@ app.use(async (ctx: Context) => {
     // 处理 js 文件
     const p = Deno.cwd() + ctx.request.url.pathname;
     ctx.response.type = 'application/javascript';
-    ctx.response.body = loadFile(p);
+    ctx.response.body = new TextDecoder('utf-8').decode(Deno.readFileSync(p));
   }
 });
 
@@ -27,11 +27,11 @@ const loadFile = (url: string, _imports?: string[]): string => {
   return res.replace(/import .* from ['|"]([^'"]+)['|"]/g, function($0, $1) {
     console.log($0, $1);
     if ($1[0] !== '.' && $1[1] !== '/') {
-      if (_imports?.includes($1)) {
-        return '';
-      } else {
-        _imports?.push($1);
-      }
+      // if (_imports?.includes($1)) {
+      //   return '';
+      // } else {
+      //   _imports?.push($1);
+      // }
       return $0;
     } else {
       const p = url.split('/');

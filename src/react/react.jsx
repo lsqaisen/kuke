@@ -41,7 +41,19 @@
 // console.log(234);
 
 import React from 'https://dev.jspm.io/react';
+import ReactDOM from 'https://dev.jspm.io/react-dom';
+// import Child from './child/index.jsx';
+// System.import('./src/react/child/index.jsx').then((v) => {
+//   console.log(v);
+//   console.log(43434, v.default());
 
-const App = () => 'sdfsdfsfd';
+//   ReactDOM.render(<div>sdfsf</div>, document.querySelector('#react-root'));
+// });
+// ReactDOM.render(<div>sdfsf</div>, document.querySelector('#react-root'));
+// const App = () => (
+//   <div>
+//     <Child />
+//   </div>
+// );
 
-export default App;
+console.log(234242);

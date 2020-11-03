@@ -6,15 +6,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <!-- <script type="systemjs-importmap" src="./importmap.json"></script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script>
+  <!-- <script type="systemjs-importmap" src="./importmap.json"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@0.21.6/dist/system.src.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script> -->
   <script src="https://cdn.bootcss.com/systemjs/6.2.6/extras/use-default.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- <script id="test" type="text/babel" data-type="module" data-presets="react,stage-3" src="./src/react/react.jsx"
-    async></script> -->
+  <!-- <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx" async>
 
+  </script> -->
+  <!-- 
+  <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx">
+
+  </script> -->
+  <!-- <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx">
+    console.log()
+  </script>
+  <script>
+    console.log(System.resolve('./src/react/child/index.jsx'))
+  </script> -->
+  <script type="text/babel" data-plugins="transform-runtime,transform-modules-systemjs" data-type="module"
+    data-presets="react,stage-3" src="./src/react/react.jsx">
+      System.import('./src/react/react.jsx')
+    // console.log(System.entries())
+    // for (const [id, ns] of System.entries()) {
+    //   console.log(id); // 'http://localhost/path-to-file.js'
+    //   console.log(ns); // { exportName: 'value' }
+    // };
+    </script>
+  <script>
+
+  </script>
+  <!-- <script type="systemjs-module" src="./src/react/react.jsx">
+      import('./src/react/react.jsx')
+    </script> -->
 
   <!-- <script>
     var script = document.createElement('script');
@@ -35,39 +61,6 @@
 
     document.head.appendChild(script);
   </script> -->
-  <script>
-    function lolizer() {
-      return {
-        visitor: {
-          BinaryExpression(path) {
-            path.parentPath.get('body').replaceWith(
-              async () => {
-                await import('https://dev.jspm.io/react').then(v => v.default)
-              }
-            )
-            console.log(path)
-            // path.node.name = 'LOL';
-          },
-          ImportDeclaration(path) {
-
-            console.log(path)
-            console.log(path.node.source.value)
-
-            // path.replaceWithSourceString(async () => {
-            //   await import('https://dev.jspm.io/react').then(v => v.default)
-            // })
-            // path.parent.source.value = 'sfsf'
-          },
-        }
-      }
-    }
-    Babel.registerPlugin('lolizer', lolizer);
-    console.log(Babel)
-  </script>
-  <script type="text/babel" data-type="module" data-plugins="lolizer" data-presets="flow,typescript,react" async>
-    import React from 'https://dev.jspm.io/react'
-    function test() { return "sdfsdf" }
-  </script>
   <!-- <script type="module">
 
     fetch('https://dev.jspm.io/react').then((v) => { console.log(v.blob().then(async v => console.log(await v.text()))) })
@@ -75,8 +68,41 @@
 </head>
 
 <body>
+  Using Babel <strong id="version"></strong>:
+  <pre id="output">Loading...</pre>
   <div id="react-root"></div>
   <div id="preact-root"></div>
+  <!-- 
+  <script type="text/babel" data-type="module" data-presets="react,stage-3" async>
+    import "./src/react/react.jsx" 
+  </script> -->
+  <!-- <script >
+    console.log(Babel)
+    Babel.disableScriptTags();
+    var script = document.createElement('script');
+    script.type = 'text/babel';
+    script.setAttribute('data-type', "module")
+    script.setAttribute('data-presets', "react")
+    script.text = "import './src/react/react.jsx'";
+    document.querySelector('head').appendChild(script)
+
+    // transform when you want to
+    Babel.transformScriptTags()
+  </script> -->
+
+  <!-- <script>
+    Babel.disableScriptTags();
+
+    var script = document.createElement('script');
+    script.type = 'text/babel';
+    script.setAttribute('data-type', "module")
+    script.setAttribute('data-presets', "react")
+    script.src = "./src/react/child/index.jsx";
+    document.querySelector('head').appendChild(script)
+
+    // transform when you want to
+    Babel.transformScriptTags()
+  </script> -->
 </body>
 
 </html>

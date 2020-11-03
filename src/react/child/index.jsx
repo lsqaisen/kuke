@@ -24,4 +24,6 @@ class Child_ extends React.Component {
 
 export default Child_;
 
-console.log(43345);
+// console.log(43345);
+
+export default () => 'sdfsdfsdfsf';
