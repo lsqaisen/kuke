@@ -1,4 +1,8 @@
 import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
+import {
+  WebSocket,
+  WebSocketServer,
+} from 'https://deno.land/x/websocket@v0.0.5/mod.ts';
 
 interface TModule {
   path: string;
@@ -33,7 +37,6 @@ const getModuleChilds = (path: string, parent: TModule): TModule[] => {
     module.childs = getModuleChilds(_path, module);
     return module;
   }) as TModule[];
-  console.log(data);
   return data;
 };
 
@@ -72,7 +75,6 @@ app.use(async (ctx: Context) => {
     module.path = './index.js';
     module.script_code = setScriptCode(module.path);
     module.childs = getModuleChilds('./index.js', module);
-    console.log(111, module);
     ctx.response.type = 'application/javascript';
     let code = getScriptCodes(module);
 
@@ -91,26 +93,20 @@ app.use(async (ctx: Context) => {
 console.log('http://0.0.0.0:8000');
 app.listen({ port: 8000 });
 
-// const loadMoudle = (url: string, parentUrl?: string | undefined): string => {
-//   const res = new TextDecoder('utf-8').decode(Deno.readFileSync(url));
-//   return res.replace(/import .* from ['|"]([^'"]+)['|"]/g, function($0, $1) {
-//     console.log($0, $1);
-//     if ($1[0] !== '.' && $1[1] !== '/') {
-//       // if (_imports?.includes($1)) {
-//       //   return '';
-//       // } else {
-//       //   _imports?.push($1);
-//       // }
+const wss = new WebSocketServer(8080);
+wss.on('connection', async function(ws: WebSocket) {
+  ws.on('message', async function(message: string) {
+    console.log(message);
+  });
 
-//       return $0;
-//     } else {
-//       return ``;
-//       const p = url.split('/');
-//       p.pop();
-//       return `\n${loadFile(`${p.join('/')}/${$1}`, _imports).replace(
-//         /\nexport default .*/,
-//         ''
-//       )}\n`;
-//     }
-//   });
-// };
+  const watcher = Deno.watchFs('./src/');
+  let timeout: number | null = null;
+  for await (const event of watcher) {
+    if (event.kind !== 'access') {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        ws.send(event.paths[0].replace(`${Deno.cwd()}`, '.'));
+      }, 500);
+    }
+  }
+});

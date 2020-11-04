@@ -1,5 +1,3 @@
-// import { wss } from './mod.ts';
-
 const run = () => {
   return Deno.run({
     cmd: ['deno', 'run', '-A', '--unstable', 'mod.ts'],
@@ -13,10 +11,7 @@ for await (const event of watcher) {
   if (timeout) clearTimeout(timeout);
   timeout = setTimeout(() => {
     _porcess.close();
-    // wss.close();
     console.log('restart');
     _porcess = run();
   }, 500);
 }
-
-export default _porcess;

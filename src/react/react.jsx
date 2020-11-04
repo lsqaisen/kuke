@@ -20,7 +20,7 @@ class LikeButton extends React.Component {
           color: 'red',
         }}
       >
-        You liked this.d
+        You liked this.sd
       </div>
     ) : (
       <button
@@ -33,7 +33,7 @@ class LikeButton extends React.Component {
         }}
       >
         <Child />
-        <div>xxdsdsfsfx</div>
+        <div>xxdsdsdfdfssf</div>
       </button>
     );
   }
