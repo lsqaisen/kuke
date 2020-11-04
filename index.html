@@ -7,101 +7,86 @@
   <title>Document</title>
 
   <!-- <script type="systemjs-importmap" src="./importmap.json"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/systemjs@0.21.6/dist/system.src.min.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs@0.21.6/dist/system.src.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script>
   <script src="https://cdn.bootcss.com/systemjs/6.2.6/extras/use-default.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs-babel@0.2.2/dist/systemjs-babel.min.js"></script> -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx" async>
-
-  </script> -->
-  <!-- 
-  <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx">
-
-  </script> -->
-  <!-- <script type="text/babel" data-plugins="transform-modules-systemjs" src="./src/react/react.jsx">
-    console.log()
-  </script>
-  <script>
-    console.log(System.resolve('./src/react/child/index.jsx'))
-  </script> -->
-  <script type="text/babel" data-plugins="transform-runtime,transform-modules-systemjs" data-type="module"
-    data-presets="react,stage-3" src="./src/react/react.jsx">
-      System.import('./src/react/react.jsx')
-    // console.log(System.entries())
-    // for (const [id, ns] of System.entries()) {
-    //   console.log(id); // 'http://localhost/path-to-file.js'
-    //   console.log(ns); // { exportName: 'value' }
-    // };
-    </script>
-  <script>
-
-  </script>
-  <!-- <script type="systemjs-module" src="./src/react/react.jsx">
-      import('./src/react/react.jsx')
-    </script> -->
-
-  <!-- <script>
-    var script = document.createElement('script');
-    script.type = 'module';
-    //Firefox, Opera, Chrome, Safari 3+
-    script.id = 'react'
-    script.onload = function (e) {
-      console.log('Script loaded!');
-      // document.head.remove(script);
-      console.log(react)
-      document.body.nodeValue
-    };
-    // script.innerHTML = message.data;
-    // script.src = `${message.data}?${new Date().getTime()}`;
-
-    // script.innerHTML = message.data;
-    script.src = "https://dev.jspm.io/react";
-
-    document.head.appendChild(script);
-  </script> -->
-  <!-- <script type="module">
-
-    fetch('https://dev.jspm.io/react').then((v) => { console.log(v.blob().then(async v => console.log(await v.text()))) })
-  </script> -->
 </head>
 
 <body>
-  Using Babel <strong id="version"></strong>:
-  <pre id="output">Loading...</pre>
   <div id="react-root"></div>
   <div id="preact-root"></div>
   <!-- 
   <script type="text/babel" data-type="module" data-presets="react,stage-3" async>
     import "./src/react/react.jsx" 
   </script> -->
-  <!-- <script >
-    console.log(Babel)
-    Babel.disableScriptTags();
-    var script = document.createElement('script');
-    script.type = 'text/babel';
-    script.setAttribute('data-type', "module")
-    script.setAttribute('data-presets', "react")
-    script.text = "import './src/react/react.jsx'";
-    document.querySelector('head').appendChild(script)
 
-    // transform when you want to
-    Babel.transformScriptTags()
-  </script> -->
 
+
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <!-- 
+  <script data-plugins="transform-modules-umd" type="text/babel" data-presets="react"
+    src="./src/react/child/react-child.jsx"></script> -->
+  <!-- <script data-plugins="transform-modules-umd" type="text/babel" data-presets="react"
+    src="./src/react/child/index.jsx"></script> -->
+  <!-- <script type="text/babel" data-plugins="transform-modules-umd" data-presets="react"
+    src="./src/react/react.jsx"></script> -->
+
+  <!-- <script type="module" src="./socket.js"></script> -->
+  <script type="module" src="/dist/bundle.js"></script>
   <!-- <script>
     Babel.disableScriptTags();
-
     var script = document.createElement('script');
     script.type = 'text/babel';
-    script.setAttribute('data-type', "module")
-    script.setAttribute('data-presets', "react")
-    script.src = "./src/react/child/index.jsx";
-    document.querySelector('head').appendChild(script)
+    script.setAttribute('data-plugins', 'transform-modules-umd');
+    script.setAttribute('data-presets', 'react');
+    script.src = './src/react/child/react-child.jsx';
+    document.querySelector('head').appendChild(script);
 
     // transform when you want to
+    var script2 = document.createElement('script');
+    script2.type = 'text/babel';
+    script2.setAttribute('data-plugins', 'transform-modules-umd');
+    script2.setAttribute('data-presets', 'react');
+    script2.src = './src/react/child/index.jsx';
+    document.querySelector('head').appendChild(script2);
+
+    // transform when you want to
+    var script3 = document.createElement('script');
+    script3.type = 'text/babel';
+    script3.setAttribute('data-plugins', "transform-modules-umd")
+    script3.setAttribute('data-presets', "react")
+    script3.src = "./src/react/react.jsx";
+    document.querySelector('head').appendChild(script3)
+
+    // transform when you want to
+
     Babel.transformScriptTags()
+
+    setTimeout(() => {
+      Babel.disableScriptTags();
+      var script2 = document.createElement('script');
+      script2.type = 'text/babel';
+      script2.setAttribute('data-plugins', 'transform-modules-umd');
+      script2.setAttribute('data-presets', 'react');
+      script2.src = './src/react/child/index-copy.jsx';
+      document.querySelector('head').appendChild(script2);
+
+      // transform when you want to
+      var script3 = document.createElement('script');
+      script3.type = 'text/babel';
+      script3.setAttribute('data-plugins', "transform-modules-umd")
+      script3.setAttribute('data-presets', "react")
+      script3.src = "./src/react/react_copy.jsx";
+      document.querySelector('head').appendChild(script3)
+
+      // transform when you want to
+
+      Babel.transformScriptTags()
+    }, 2000)
   </script> -->
 </body>
 

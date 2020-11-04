@@ -15,6 +15,7 @@ class Child extends React.Component {
           color: 'red',
         }}
       >
+        sdfsdfsdff
         <C />
       </div>
     );

@@ -1,7 +1,7 @@
 // import React from 'https://unpkg.com/react@16/umd/react.development.js';
 // import ReactDOM from 'https://unpkg.com/react-dom@16/umd/react-dom.development.js';
 
-import Child from './child/index.jsx';
+import Child from './child/index-copy.jsx';
 
 class LikeButton extends React.Component {
   constructor(props) {
@@ -33,7 +33,6 @@ class LikeButton extends React.Component {
         }}
       >
         <Child />
-        <div>xxdsdsfsfx</div>
       </button>
     );
   }

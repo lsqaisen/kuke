@@ -1,6 +1,65 @@
 import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
 
+interface TModule {
+  path: string;
+  script_code: string;
+  childs: TModule[];
+}
+
+const module: TModule = {
+  path: '',
+  script_code: '',
+  childs: [],
+};
+
+const getModuleChilds = (path: string, parent: TModule): TModule[] => {
+  const res = new TextDecoder('utf-8').decode(
+    Deno.readFileSync(Deno.cwd() + path.replace(/^\.\//, '/'))
+  );
+  const pp = path.split('/');
+  pp.pop();
+  const m = res.match(/(?<!(\/\/.*))(import [^;]*)/g);
+  if (!m) {
+    return [];
+  }
+  const data = m.map((v) => {
+    const p = v.replace(/.*['|"]([^'"]+)['|"]/g, `$1`);
+    const _path = `${pp.join('/')}/${p.replace(/^\.\//, '')}`;
+    const module: TModule = {
+      path: _path,
+      script_code: setScriptCode(_path),
+      childs: [],
+    };
+    module.childs = getModuleChilds(_path, module);
+    return module;
+  }) as TModule[];
+  console.log(data);
+  return data;
+};
+
+const setScriptCode = (path: string) => {
+  const code = `
+  var script = document.createElement('script');
+  script.type = 'text/babel';
+  script.setAttribute('data-plugins', "transform-modules-umd")
+  script.setAttribute('data-presets', "react")
+  script.src = "${path}";
+  document.querySelector('head').appendChild(script)
+  `;
+  return code;
+};
+
+const getScriptCodes = (module: TModule): string => {
+  if (module.childs.length > 0) {
+    return `${module.childs
+      .map((v: TModule) => getScriptCodes(v))
+      .join('\n')}\n${module.script_code}`;
+  }
+  return module.script_code;
+};
+
 const app = new Application();
+
 app.use(async (ctx: Context) => {
   const decoder = new TextDecoder('utf-8');
   if (ctx.request.url.pathname == '/') {
@@ -9,40 +68,49 @@ app.use(async (ctx: Context) => {
     const data = Deno.readFileSync('./index.html');
     ctx.response.body = decoder.decode(data);
   }
-  if (
-    ['jsx', 'js', 'tsx', 'ts', 'json'].some((v) =>
+  if (ctx.request.url.pathname.includes('/dist/bundle.js')) {
+    module.path = './index.js';
+    module.script_code = setScriptCode(module.path);
+    module.childs = getModuleChilds('./index.js', module);
+    console.log(111, module);
+    ctx.response.type = 'application/javascript';
+    let code = getScriptCodes(module);
+
+    ctx.response.body = `Babel.disableScriptTags();\n${code};\nBabel.transformScriptTags();`;
+  } else if (
+    ['jsx', 'js', 'tsx', 'ts'].some((v) =>
       ctx.request.url.pathname.endsWith(`.${v}`)
     )
   ) {
-    // 处理 js 文件
     const p = Deno.cwd() + ctx.request.url.pathname;
     ctx.response.type = 'application/javascript';
     ctx.response.body = new TextDecoder('utf-8').decode(Deno.readFileSync(p));
   }
 });
 
-const loadFile = (url: string, _imports?: string[]): string => {
-  const res = new TextDecoder('utf-8').decode(Deno.readFileSync(url));
-  _imports = _imports || [];
-  return res.replace(/import .* from ['|"]([^'"]+)['|"]/g, function($0, $1) {
-    console.log($0, $1);
-    if ($1[0] !== '.' && $1[1] !== '/') {
-      // if (_imports?.includes($1)) {
-      //   return '';
-      // } else {
-      //   _imports?.push($1);
-      // }
-      return $0;
-    } else {
-      const p = url.split('/');
-      p.pop();
-      return `\n${loadFile(`${p.join('/')}/${$1}`, _imports).replace(
-        /\nexport default .*/,
-        ''
-      )}\n`;
-    }
-  });
-};
-
 console.log('http://0.0.0.0:8000');
 app.listen({ port: 8000 });
+
+// const loadMoudle = (url: string, parentUrl?: string | undefined): string => {
+//   const res = new TextDecoder('utf-8').decode(Deno.readFileSync(url));
+//   return res.replace(/import .* from ['|"]([^'"]+)['|"]/g, function($0, $1) {
+//     console.log($0, $1);
+//     if ($1[0] !== '.' && $1[1] !== '/') {
+//       // if (_imports?.includes($1)) {
+//       //   return '';
+//       // } else {
+//       //   _imports?.push($1);
+//       // }
+
+//       return $0;
+//     } else {
+//       return ``;
+//       const p = url.split('/');
+//       p.pop();
+//       return `\n${loadFile(`${p.join('/')}/${$1}`, _imports).replace(
+//         /\nexport default .*/,
+//         ''
+//       )}\n`;
+//     }
+//   });
+// };

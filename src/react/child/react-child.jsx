@@ -1,4 +1,3 @@
-import React from 'https://dev.jspm.io/react';
 class Child extends React.Component {
   constructor(props) {
     super(props);
